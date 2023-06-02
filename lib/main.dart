@@ -27,7 +27,15 @@ class MyStatelessWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: ElevatedButton(
-        child: const Text('Alert Me'),
+        style: ElevatedButton.styleFrom(
+          primary: Colors.blueGrey[900], // Background color
+          onPrimary: Colors.white, // Text color
+          padding: const EdgeInsets.symmetric(
+              horizontal: 24, vertical: 12), // Button padding
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(24)), // Button border radius
+          elevation: 8, // Button shadow
+        ),
         onPressed: () {
           showDialog(
               context: context,
@@ -43,6 +51,7 @@ class MyStatelessWidget extends StatelessWidget {
                     ],
                   ));
         },
+        child: const Text('Alert Me', style: TextStyle(fontSize: 24)),
       ),
     );
   }
