@@ -1,5 +1,11 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_road/screens/dashboard_screen.dart';
+import 'package:flutter_road/screens/login_screen.dart';
 import 'package:flutter_road/utils/authentication_array.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:confetti/confetti.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({Key? key});
@@ -13,6 +19,19 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   late String _username;
   late String _email;
   late String _password;
+  late ConfettiController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = ConfettiController(duration: const Duration(seconds: 1));
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +47,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              const Icon(
+                Icons.yard,
+                size: 200,
+                color: Colors.blue,
+              ),
               TextFormField(
                 decoration: const InputDecoration(
                   hintText: 'Enter your username',
@@ -45,6 +69,28 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     _username = value!;
                   });
                 },
+              ),
+              SizedBox(
+                height: 0,
+                child: ConfettiWidget(
+                  confettiController: _controller,
+                  blastDirection: pi * 1.5,
+                  blastDirectionality: BlastDirectionality.explosive,
+                  emissionFrequency: 0.05,
+                  numberOfParticles: 100,
+                  gravity: 0.1,
+                  shouldLoop: false,
+                  maxBlastForce: 20,
+                  minBlastForce: 10,
+                  particleDrag: 0.05,
+                  colors: const [
+                    Colors.green,
+                    Colors.blue,
+                    Colors.pink,
+                    Colors.orange,
+                    Colors.purple
+                  ],
+                ),
               ),
               const SizedBox(height: 24),
               TextFormField(
@@ -93,25 +139,16 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState!.save();
                       AuthenticationArray.addUser(_username, _email, _password);
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: const Text('Registration successful'),
-                            content: const Text(
-                                'Your account has been created. You can now log in.'),
-                            actions: <Widget>[
-                              TextButton(
-                                child: const Text('Ok'),
-                                onPressed: () {
-                                  Navigator.popUntil(
-                                      context, ModalRoute.withName('/'));
-                                },
-                              ),
-                            ],
-                          );
-                        },
-                      );
+                      Fluttertoast.showToast(msg: 'Registration successful');
+
+                      _controller.play();
+
+                      Future.delayed(const Duration(seconds: 2), () {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const LoginScreen()));
+                      });
                     }
                   },
                   style: ElevatedButton.styleFrom(
