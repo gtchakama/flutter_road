@@ -29,6 +29,12 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              const Icon(
+                Icons.person,
+                size: 200,
+                color: Colors.blue,
+              ),
+              const SizedBox(height: 32),
               TextFormField(
                 decoration: const InputDecoration(
                   hintText: 'Enter your username',
