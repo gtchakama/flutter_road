@@ -61,7 +61,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 20),
             child: Text(
-              "Welcome to My App",
+              "Bra Mozze",
               style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
